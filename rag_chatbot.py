@@ -213,7 +213,12 @@ def apply_custom_css():
 
 # Initialize Pinecone client
 def init_pinecone():
-    api_key = os.environ.get("PINECONE_API_KEY", "your-pinecone-api-key")
+    try:
+        # Get API key from secrets or environment
+        api_key = st.secrets["pinecone"]["PINECONE_API_KEY"]
+    except (KeyError, TypeError):
+        # Fallback to environment variable or default
+        api_key = os.environ.get("PINECONE_API_KEY", "your-pinecone-api-key")
     
     # Create Pinecone client
     pc = pinecone.Pinecone(api_key=api_key)
@@ -225,8 +230,12 @@ def init_pinecone():
 
 # Initialize OpenAI client
 def get_openai_client():
-    # Using the correct API key format as provided
-    openai_api_key = os.environ.get("OPENAI_API_KEY", "your-openai-api-key")
+    try:
+        # Try to get from secrets
+        openai_api_key = st.secrets["openai"]["OPENAI_API_KEY"]
+    except (KeyError, TypeError):
+        # Fallback to environment variable or default
+        openai_api_key = os.environ.get("OPENAI_API_KEY", "your-openai-api-key")
     return OpenAI(api_key=openai_api_key)
 
 # Refine the user query to be more specific for better search results
