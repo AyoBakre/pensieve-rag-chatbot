@@ -214,25 +214,27 @@ def apply_custom_css():
 # Initialize Pinecone client
 def init_pinecone():
     try:
-        # Get API key from secrets or environment
-        api_key = st.secrets["pinecone"]["PINECONE_API_KEY"]
-    except (KeyError, TypeError):
-        # Fallback to environment variable or default
-        api_key = os.environ.get("PINECONE_API_KEY", "your-pinecone-api-key")
-    
-    # Create Pinecone client
-    pc = pinecone.Pinecone(api_key=api_key)
-    
-    # List available indexes
-    available_indexes = [index.name for index in pc.list_indexes()]
-    
-    return pc, available_indexes
+        # Get API key from environment variable
+        api_key = st.secrets.pinecone.PINECONE_API_KEY
+        if not api_key:
+            raise ValueError("PINECONE_API_KEY environment variable is not set")
+            
+        # Create Pinecone client
+        pc = pinecone.Pinecone(api_key=api_key)
+        
+        # List available indexes
+        available_indexes = [index.name for index in pc.list_indexes()]
+        
+        return pc, available_indexes
+    except Exception as e:
+        print(f"Error initializing Pinecone: {str(e)}")
+        raise  # Re-raise the exception to be handled by the caller
 
 # Initialize OpenAI client
 def get_openai_client():
     try:
         # Try to get from secrets
-        openai_api_key = st.secrets["openai"]["OPENAI_API_KEY"]
+        openai_api_key = st.secrets.openai.OPENAI_API_KEY
     except (KeyError, TypeError):
         # Fallback to environment variable or default
         openai_api_key = os.environ.get("OPENAI_API_KEY", "your-openai-api-key")
