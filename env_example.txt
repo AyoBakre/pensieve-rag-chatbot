@@ -1,0 +1,14 @@
+# Microsoft SharePoint credentials
+SHAREPOINT_SITE_URL=https://yourcompany.sharepoint.com/sites/YourSite
+SHAREPOINT_CLIENT_ID=your_client_id
+SHAREPOINT_CLIENT_SECRET=your_client_secret
+SHAREPOINT_TENANT_ID=your_tenant_id
+SHAREPOINT_FOLDER_PATH=/Shared Documents/Your Folder
+
+# OpenAI API Key
+OPENAI_API_KEY=your_openai_api_key
+
+# Pinecone Configuration
+PINECONE_API_KEY=your_pinecone_api_key
+PINECONE_ENVIRONMENT=your_pinecone_environment
+PINECONE_INDEX_NAME=your_pinecone_index_name 
