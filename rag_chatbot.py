@@ -212,7 +212,13 @@ def apply_custom_css():
 
 # Initialize Pinecone client
 def init_pinecone():
-    api_key = os.environ.get("PINECONE_API_KEY", "your-pinecone-api-key")
+    # Try to get API key from Streamlit secrets first, then environment variables
+    try:
+        api_key = st.secrets["pinecone"]["PINECONE_API_KEY"]
+    except (KeyError, FileNotFoundError):
+        api_key = os.environ.get("PINECONE_API_KEY", "your-pinecone-api-key")
+    
+    print(f"Using Pinecone API key: {api_key[:5]}...{api_key[-5:]}")
     
     # Create Pinecone client
     pc = pinecone.Pinecone(api_key=api_key)
@@ -224,8 +230,14 @@ def init_pinecone():
 
 # Initialize OpenAI client
 def get_openai_client():
-    # Using the correct API key format as provided
-    openai_api_key = os.environ.get("OPENAI_API_KEY", "your-openai-api-key")
+    # Try to get API key from Streamlit secrets first, then environment variables
+    try:
+        openai_api_key = st.secrets["openai"]["OPENAI_API_KEY"]
+    except (KeyError, FileNotFoundError):
+        openai_api_key = os.environ.get("OPENAI_API_KEY", "your-openai-api-key")
+        
+    print(f"Using OpenAI API key: {openai_api_key[:5]}...{openai_api_key[-5:]}")
+    
     return OpenAI(api_key=openai_api_key)
 
 # Refine the user query to be more specific for better search results
