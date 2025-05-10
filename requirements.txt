@@ -1,0 +1,7 @@
+streamlit>=1.24.0
+pinecone-client>=2.2.1
+openai>=1.0.0
+python-dotenv>=1.0.0
+requests>=2.28.2
+numpy>=1.24.2
+watchdog>=3.0.0 
